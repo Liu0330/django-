@@ -9,7 +9,7 @@ class User(models.Model):
         ('female', '女性'),
         ('no', '无性'),
         ('hidden', '隐藏'),
-        ('unknown', '隐藏'),
+        ('unknown', '未知'),
     )
 
     phone = models.CharField(max_length=10, unique=True, verbose_name='手机号')

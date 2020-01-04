@@ -1,7 +1,7 @@
 import logging
 
 from django.core.cache import cache
-from common.keys import VCODE_PREFIX
+from common.keys import *
 from lib.http import render_json
 from lib.sms import send_sms
 from social import settings
@@ -69,7 +69,8 @@ def user_profile(request):
 def user_avatar(request):
     #1.存下来
     # 定义上传后保存的文件名
-    file_name =f'avatar-{request.user.id}.jpg'
+
+    file_name =f'{AVATARPREFIX}{request.user.id}.jpg'
     # 上传后保存的路径
     file_path = f'{settings.BASE_DIR}/static/{file_name}'
     #接收上传文件内容
