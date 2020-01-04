@@ -7,8 +7,11 @@ from lib.sms import send_sms
 from social import settings
 from user.logics import upload_qiniu
 from user.models import User
-
+#写入 info.log 文件
 inf_log = logging.getLogger('inf')
+
+#写入 控制台
+inf_log = logging.getLogger('django')
 
 #先经过 Session 中间件的process_request
 def user_phone(request):

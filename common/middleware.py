@@ -11,6 +11,8 @@ class AuthMiddleware(MiddlewareMixin):
     URL_WHITE_LIST = [
         '/api/user/phone',
         '/api/user/vcode',
+        '/api/user/add',
+        '/api/user/show',
     ]
 
     def process_request(self, request):
