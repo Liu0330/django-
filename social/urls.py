@@ -26,6 +26,9 @@ urlpatterns = [
     url(r'api/user/show', swiper_api.swiper_showusers),
 
     url(r'api/user/avatar', user_api.user_avatar),#添加一百人
+
+    url(r'api/swiper/users', swiper_api.swiper_users),
+    url(r'api/swiper/like', swiper_api.swiper_like),
     #    url(r'api/user/submit/vcode', user_api.submit_vcode),
 ]
 
