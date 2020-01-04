@@ -1,22 +1,20 @@
+# -*- coding: utf-8 -*-
+import datetime
 from django.db import models
 from django.db.models import Q
 
-# Create your models here.
-
-from django.db import models
-
 class Swiper(models.Model):
-    '''滑动模型'''
+
     TYPE = (
         ('like', '左滑喜欢'),
         ('superlike', '右滑超级喜欢'),
         ('unlike', '上滑不喜欢'),
     )
 
-    source_id = models.IntegerField(verbose_name='滑动者')
-    target_id = models.IntegerField(verbose_name='被滑者')
-    type = models.CharField(max_length=20, choices=TYPE, verbose_name='滑动类型')
-    s_time = models.DateTimeField(auto_now_add=True, verbose_name='滑动时间')
+    type = models.CharField(max_length=16, choices=TYPE, verbose_name='滑动类型')
+    source_id = models.IntegerField(verbose_name='滑动者的uid')
+    target_id = models.IntegerField(verbose_name='被滑动者的uid')
+    s_time = models.DateTimeField(auto_now_add=True)
 
     @classmethod
     def swipe(cls, type, source_id, target_id):
