@@ -30,7 +30,17 @@ def gen_user(n):
             User.objects.create(nickname=name,gender=gender,phone=phone,location=city)
             print(f'gen_user: {name}')
         except:
-            pass
+            return 'genuser出现问题'
+
+
+def show_user():
+    # user = User.objects.all()
+    users =User.objects.all()
+
+    return users
+
+
+
 
 if __name__ == "__main__":
-    gen_user(5000)
+    gen_user(100)

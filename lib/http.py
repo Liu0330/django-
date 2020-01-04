@@ -4,9 +4,10 @@ from django.http import HttpResponse
 from django.conf import settings
 
 
-def render_json(data, code=0):
+def render_json(data, msg='', code=0):
     result = {
         'code': code,
+        'msg': msg,
         'data': data
     }
 
