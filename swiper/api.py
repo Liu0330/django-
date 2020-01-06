@@ -51,7 +51,6 @@ def swiper_users(request):
 
     return render_json(res_user)
     # 1.取出可滑动用户
-
     # 2.取出滑过的用户
     # 3.去掉自己
 
