@@ -42,3 +42,7 @@ class VipPermRelation(models.Model):
     '''Vip 和 权限 的关系表'''
     vip_id = models.IntegerField()
     perm_id = models.IntegerField()
+
+    # @classmethod
+    # def get_perm(cls,vip_id):
+    #     perms = cls.objects.filter(vip_id = vip_id).only('perm_id')

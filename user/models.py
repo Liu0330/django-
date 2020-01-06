@@ -1,6 +1,8 @@
 import datetime
 from django.db import models
 
+from vip.models import Vip
+
 
 class User(models.Model):
     '''用户模型'''
@@ -20,6 +22,8 @@ class User(models.Model):
     birth_day = models.IntegerField(default=1, verbose_name='出生日')
     avatar = models.CharField(max_length=2048, verbose_name='个人形象的URL')
     location = models.CharField(max_length=10, verbose_name='常居地')
+
+    vip_id = models.IntegerField(default=1)
 
     @property
     def age(self):
@@ -41,3 +45,9 @@ class User(models.Model):
             'avatar': self.avatar,
             'location': self.location,
         }
+    @property
+    def vip(self):
+        '''用户对应的 VIP'''
+        if not hasattr(self, '_vip'):
+            self._vip = Vip.get(id=self.vip_id)
+        return self._vip

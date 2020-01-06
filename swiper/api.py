@@ -7,6 +7,7 @@ from lib.http import render_json
 from scripts.gen_user import gen_user, show_user
 from swiper.models import Swiper, Friend
 from user.models import User
+from vip.logics import need_perm
 
 inf_log = logging.getLogger('inf')
 
@@ -67,6 +68,38 @@ def swiper_like(request):
     # 检查被滑动者，是否喜欢过滑动者
     if Swiper.is_liked_someone(source_id=target_id, target_id=source_id):
         Friend.make_friends(target_id, source_id)
+
+    return render_json(None)
+
+@need_perm('superlike')
+def superlike(request):
+    target_id = int(request.POST.get('target_id'))
+    # source_id = int(request.POST.get('source_id'))
+    source_id = request.user.id
+
+    if target_id == source_id:
+        return render_json({}, '禁止喜欢自己', CODE_DISABLE_LIKE_SELF)
+    Swiper.swipe('superlike', source_id=source_id, target_id=target_id)
+
+    # 检查被滑动者，是否喜欢过滑动者
+    if Swiper.is_liked_someone(source_id=target_id, target_id=source_id):
+        Friend.make_friends(target_id, source_id)
+
+    return render_json(None)
+
+
+def swiper_unlike(request):
+    target_id = int(request.POST.get('target_id'))
+    # source_id = int(request.POST.get('source_id'))
+    source_id = request.user.id
+
+    if target_id == source_id:
+        return render_json({}, '禁止不喜欢自己', CODE_DISABLE_LIKE_SELF)
+    Swiper.swipe('unlike', source_id=source_id, target_id=target_id)
+
+    # 检查好友关系，如果是好友关系，要解除
+    #if Friend.is_friend(source_id,target_id):
+    Friend.break_off(source_id,target_id)
 
     return render_json(None)
 
