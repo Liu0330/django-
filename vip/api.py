@@ -1,3 +1,14 @@
-from django.shortcuts import render
+from lib.http import render_json
+from vip.models import Vip
 
-# Create your views here.
+
+def show_all_perms(request):
+    vip_info = []
+    # 遍历VIP表的每条记录
+    for vip in Vip.objects.all():
+        curr_vip = vip.to_dict()
+        curr_vip['perms'] = []
+        for perm in vip.perms:
+            curr_vip['perms'].append(perm.to_dict())
+        vip_info.append(curr_vip)
+    return render_json(vip_info)
