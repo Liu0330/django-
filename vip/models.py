@@ -1,30 +1,31 @@
+# -*- coding: utf-8 -*-
 from django.db import models
 from django.views import View
 
 
 class Vip(models.Model):
-    '''VIP±í'''
-    name = models.CharField(max_length=32, unique=True, verbose_name='»áÔ±µÈ¼¶¶ÔÓ¦µÄÃû³Æ')
-    level = models.IntegerField(verbose_name='VIP µÈ¼¶')
-    price = models.FloatField(verbose_name='»áÔ±µÈ¼¶¶ÔÓ¦µÄ¼Û¸ñ')
+    '''VIPè¡¨'''
+    name = models.CharField(max_length=32, unique=True, verbose_name='ä¼šå‘˜ç­‰çº§å¯¹åº”çš„åç§°')
+    level = models.IntegerField(verbose_name='VIP ç­‰çº§')
+    price = models.FloatField(verbose_name='ä¼šå‘˜ç­‰çº§å¯¹åº”çš„ä»·æ ¼')
 
     class Meta:
         ordering = ['level']
 
     @property
     def perms(self):
-        '''È¡³öµ±Ç° VIP ÓµÓĞµÄËùÓĞÈ¨ÏŞ'''
-        # ¹ıÂËÈ¨ÏŞ¹ØÏµ±í£¬È¡³öÓë×Ô¼ºvip_idÒ»ÖÂµÄÊı¾İ
+        '''å–å‡ºå½“å‰ VIP æ‹¥æœ‰çš„æ‰€æœ‰æƒé™'''
+        # è¿‡æ»¤æƒé™å…³ç³»è¡¨ï¼Œå–å‡ºä¸è‡ªå·±vip_idä¸€è‡´çš„æ•°æ®
         relations = VipPermRelation.objects.filter(vip_id=self.id)
 
-        # È¡³öÈ¨ÏŞid
+        # å–å‡ºæƒé™id
         perm_id_list = [rlt.perm_id for rlt in relations]
 
-        # È¥È¨ÏŞ±íÈ¡³öÈ¨ÏŞ
+        # å»æƒé™è¡¨å–å‡ºæƒé™
         return Permission.objects.filter(id__in=perm_id_list)
 
     def has_perm(self, perm_name):
-        '''¼ì²éµ±Ç° VIP ÊÇ·ñÓµÓĞÄ³È¨ÏŞ'''
+        '''æ£€æŸ¥å½“å‰ VIP æ˜¯å¦æ‹¥æœ‰æŸæƒé™'''
         for perm in self.perms:
             if perm.name == perm_name:
                 return True
@@ -32,12 +33,12 @@ class Vip(models.Model):
 
 
 class Permission(models.Model):
-    '''È¨ÏŞ±í'''
-    name = models.CharField(max_length=16, unique=True, verbose_name='È¨ÏŞÃû³Æ')
-    desc = models.TextField(verbose_name='¶ÔÈ¨ÏŞµÄÃèÊö')
+    '''æƒé™è¡¨'''
+    name = models.CharField(max_length=16, unique=True, verbose_name='æƒé™åç§°')
+    desc = models.TextField(verbose_name='å¯¹æƒé™çš„æè¿°')
 
 
 class VipPermRelation(models.Model):
-    '''Vip ºÍ È¨ÏŞ µÄ¹ØÏµ±í'''
+    '''Vip å’Œ æƒé™ çš„å…³ç³»è¡¨'''
     vip_id = models.IntegerField()
     perm_id = models.IntegerField()
